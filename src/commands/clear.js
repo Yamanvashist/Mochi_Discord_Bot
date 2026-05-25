@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
+import { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, Colors } from "discord.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -16,27 +16,32 @@ export default {
     const amount = interaction.options.getInteger("amount");
 
     if (amount < 1 || amount > 50) {
-      return interaction.reply({
-        content: "Enter a number between 1-50 ",
-        ephemeral: true,
-      });
+      const errorEmbed = new EmbedBuilder()
+        .setTitle("Invalid amount")
+        .setDescription("Enter a number between 1 and 50.")
+        .setColor(Colors.Red);
+
+      return interaction.reply({ embeds: [errorEmbed], ephemeral: true });
     }
 
     try {
       await interaction.channel.bulkDelete(amount);
 
-      await interaction.reply({
-        content: `Deleted ${amount} messages`,
-        ephemeral: true,
-      });
+      const successEmbed = new EmbedBuilder()
+        .setTitle("Messages Deleted")
+        .setDescription(`Deleted ${amount} messages.`)
+        .setColor(Colors.Green);
 
+      await interaction.reply({ embeds: [successEmbed], ephemeral: true });
     } catch (err) {
       console.log(err);
 
-      await interaction.reply({
-        content: "Can't delete old messages (14+ days)",
-        ephemeral: true,
-      });
+      const failureEmbed = new EmbedBuilder()
+        .setTitle("Delete Failed")
+        .setDescription("Can't delete messages older than 14 days.")
+        .setColor(Colors.Red);
+
+      await interaction.reply({ embeds: [failureEmbed], ephemeral: true });
     }
   },
 };

@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder, Colors } from "discord.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -10,9 +10,11 @@ export default {
 
     const embed = new EmbedBuilder()
       .setTitle("User Info")
+      .setColor(Colors.Green)
+      .setThumbnail(user.displayAvatarURL({ dynamic: true }))
       .addFields(
-        { name: "Name", value: user.username },
-        { name: "ID", value: user.id }
+        { name: "Name", value: user.username, inline: true },
+        { name: "ID", value: user.id, inline: true }
       );
 
     await interaction.reply({ embeds: [embed] });

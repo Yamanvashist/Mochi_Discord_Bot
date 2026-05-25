@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder, Colors } from "discord.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -14,6 +14,11 @@ export default {
 
     const joke = jokes[Math.floor(Math.random() * jokes.length)];
 
-    await interaction.reply(joke);
+    const embed = new EmbedBuilder()
+      .setTitle("Joke Time")
+      .setDescription(joke)
+      .setColor(Colors.Fuchsia);
+
+    await interaction.reply({ embeds: [embed] });
   }
 };

@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder, Colors } from "discord.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -11,6 +11,11 @@ export default {
     const a = interaction.options.getNumber("a");
     const b = interaction.options.getNumber("b");
 
-    await interaction.reply(`Result: ${a - b}`);
+    const embed = new EmbedBuilder()
+      .setTitle("Subtraction Result")
+      .setDescription(`Result: ${a - b}`)
+      .setColor(Colors.Blurple);
+
+    await interaction.reply({ embeds: [embed] });
   }
 };

@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder, Colors } from "discord.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -7,6 +7,11 @@ export default {
 
   async execute(interaction) {
     const user = interaction.user;
-    await interaction.reply(user.displayAvatarURL({ dynamic: true }));
+    const embed = new EmbedBuilder()
+      .setTitle(`${user.username}'s Avatar`)
+      .setColor(Colors.Blurple)
+      .setImage(user.displayAvatarURL({ dynamic: true, size: 512 }));
+
+    await interaction.reply({ embeds: [embed] });
   }
 };

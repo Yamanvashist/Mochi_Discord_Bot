@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, Colors } from "discord.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -13,6 +13,11 @@ export default {
 
     await member.kick();
 
-    await interaction.reply(`${user.username} kicked`);
+    const embed = new EmbedBuilder()
+      .setTitle("User Kicked")
+      .setDescription(`${user.username} has been kicked.`)
+      .setColor(Colors.Red);
+
+    await interaction.reply({ embeds: [embed] });
   }
 };

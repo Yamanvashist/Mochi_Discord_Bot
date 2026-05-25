@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder, Colors } from "discord.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -6,6 +6,11 @@ export default {
     .setDescription("replies with wassup!"),
 
   async execute(interaction) {
-    await interaction.reply("wassup bro!");
+    const embed = new EmbedBuilder()
+      .setTitle("Hey there!")
+      .setDescription("wassup bro! 😎")
+      .setColor(Colors.Blurple);
+
+    await interaction.reply({ embeds: [embed] });
   },
 };

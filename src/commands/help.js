@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder, Colors } from "discord.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -6,10 +6,10 @@ export default {
     .setDescription("Shows all available commands"),
 
   async execute(interaction) {
-
     const embed = new EmbedBuilder()
       .setTitle("Coding Bot Commands ")
       .setDescription("Here are all available commands")
+      .setColor(Colors.Purple)
       .addFields(
         { name: "/ping", value: "Checks if bot is online" },
         { name: "/hey", value: "Greets you" },
@@ -18,14 +18,13 @@ export default {
         { name: "/avatar", value: "Shows your profile picture" },
         { name: "/userinfo", value: "Shows user info" },
 
-        { name: "/clear", value: "Deletes messages (1-50)" }
+        { name: "/clear", value: "Deletes messages (1-50)" },
       )
       .setFooter({ text: "Coding Bot • Keep it clean" })
       .setTimestamp();
 
     await interaction.reply({
-      embeds: [embed]
+      embeds: [embed],
     });
-
-  }
+  },
 };

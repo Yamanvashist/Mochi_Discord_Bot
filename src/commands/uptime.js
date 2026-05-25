@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder, Colors } from "discord.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -8,6 +8,11 @@ export default {
   async execute(interaction) {
     const uptime = process.uptime();
 
-    await interaction.reply(`Uptime: ${Math.floor(uptime)}s`);
+    const embed = new EmbedBuilder()
+      .setTitle("Bot Uptime")
+      .setDescription(`Uptime: ${Math.floor(uptime)}s`)
+      .setColor(Colors.Blue);
+
+    await interaction.reply({ embeds: [embed] });
   }
 };

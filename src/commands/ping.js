@@ -1,11 +1,16 @@
-import { SlashCommandBuilder } from "discord.js"
+import { SlashCommandBuilder, EmbedBuilder, Colors } from "discord.js";
 
 export default {
-    data : new SlashCommandBuilder()
+  data: new SlashCommandBuilder()
     .setName("ping")
     .setDescription("replies with pong"),
 
-    async execute(interaction){
-        await interaction.reply("Pong")
-    }
-}
+  async execute(interaction) {
+    const embed = new EmbedBuilder()
+      .setTitle("Pong 🏓")
+      .setDescription("Latency checked and all systems go.")
+      .setColor(Colors.Green);
+
+    await interaction.reply({ embeds: [embed] });
+  }
+};

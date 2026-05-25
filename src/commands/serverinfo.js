@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder, Colors } from "discord.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -10,10 +10,9 @@ export default {
 
     const embed = new EmbedBuilder()
       .setTitle(guild.name)
-      .addFields(
-        { name: "Members", value: `${guild.memberCount}` }
-      );
+      .setColor(Colors.Yellow)
+      .addFields({ name: "Members", value: `${guild.memberCount}` });
 
     await interaction.reply({ embeds: [embed] });
-  }
+  },
 };
