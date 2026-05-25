@@ -30,7 +30,7 @@ src/
 
 Installation :
 
-git clone https://github.com/your-username/mochi-bot.git
+git clone https://github.com/Yamanvashist/Mochi_Discord_Bot.git
 cd mochi-bot
 npm install
 
