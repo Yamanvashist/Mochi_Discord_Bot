@@ -6,19 +6,20 @@ export default {
   name: "interactionCreate",
 
   async execute(interaction, commands) {
+
     if (!interaction.isChatInputCommand()) return;
 
     const command = commands.get(interaction.commandName);
 
+
     if (!command) {
       return interaction.reply({
-        content: "Command not found !",
-        ephemeral: true,
+        content: "Command not found!",
+        flags: 64,
       });
     }
 
-    
-
+    // COOLDOWN CHECK
     const cooldown = checkCooldown(
       interaction.user.id,
       interaction.commandName,
@@ -27,32 +28,48 @@ export default {
     if (cooldown) {
       return interaction.reply({
         content: `Slow down bro! wait ${cooldown / 1000}s`,
-        ephemeral: true,
+        flags: 64,
       });
     }
 
+    // PERMISSION CHECK
     if (command.data.defaultMemberPermissions) {
-      const hasPermission = interaction.member.permissions.has(
-        command.data.defaultMemberPermissions,
-      );
+
+      const hasPermission =
+        interaction.member.permissions.has(
+          command.data.defaultMemberPermissions,
+        );
 
       if (!hasPermission) {
         return interaction.reply({
-          content: "You don't have permission ",
-          ephemeral: true,
+          content: "You don't have permission",
+          flags: 64,
         });
       }
     }
 
+    // EXECUTE COMMAND
     try {
+
       await command.execute(interaction);
+
     } catch (error) {
+
       console.log(error);
 
-      if (!interaction.replied) {
+      
+      if (interaction.replied || interaction.deferred) {
+
+        await interaction.followUp({
+          content: "Something went wrong",
+          flags: 64,
+        });
+
+      } else {
+
         await interaction.reply({
-          content: "Something wrong",
-          ephemeral: true,
+          content: "Something went wrong",
+          flags: 64,
         });
       }
     }
