@@ -10,7 +10,7 @@ export async function checkInactive(guild) {
   const users = await User.find();
 
   const updateChannel = guild.channels.cache.find(
-    (c) => c.name === "server-updates"
+    (c) => c.name === "server-updates",
   );
 
   for (const user of users) {
@@ -18,7 +18,7 @@ export async function checkInactive(guild) {
 
     let member;
 
-    // FETCH MEMBER SAFELY
+    // FETCH MEMBER
     try {
       member = await guild.members.fetch(user.userId);
     } catch {
@@ -29,21 +29,20 @@ export async function checkInactive(guild) {
 
     // KICK AFTER 7 DAYS
     if (inactiveTime >= sevenDays) {
-
       if (updateChannel) {
-
         const kickEmbed = new EmbedBuilder()
           .setColor(Colors.Red)
           .setTitle("🚨 Member Removed")
           .setDescription(
-            `<@${member.id}> was removed for being inactive for 7 days.`
+            `${member.user.username} was removed for being inactive for 7 days.`,
           )
           .setFooter({
-            text: "Stay active to avoid removal.",
+            text: "Server Activity System",
           })
           .setTimestamp();
 
         await updateChannel.send({
+          content: `🚨 ${member}`,
           embeds: [kickEmbed],
         });
       }
@@ -57,7 +56,6 @@ export async function checkInactive(guild) {
         await User.deleteOne({
           userId: user.userId,
         });
-
       } catch (err) {
         console.log(`Failed to kick ${member.user.username}`, err);
       }
@@ -66,19 +64,13 @@ export async function checkInactive(guild) {
     }
 
     // WARNING AFTER 3 DAYS
-    if (
-      inactiveTime >= threeDays &&
-      inactiveTime < sevenDays &&
-      !user.warned
-    ) {
-
+    if (inactiveTime >= threeDays && inactiveTime < sevenDays && !user.warned) {
       if (updateChannel) {
-
         const warningEmbed = new EmbedBuilder()
           .setColor(Colors.Yellow)
           .setTitle("⚠️ Inactivity Warning")
           .setDescription(
-            `<@${member.id}> has been inactive for 3 days.`
+            `${member.user.username} has been inactive for 3 days.`,
           )
           .addFields({
             name: "Reminder",
@@ -91,14 +83,17 @@ export async function checkInactive(guild) {
           .setTimestamp();
 
         await updateChannel.send({
+          content: `${member}`,
           embeds: [warningEmbed],
         });
       }
 
-      // DM
-      await member.send(
-        "⚠️ You’ve been inactive for 3 days. Stay active or you may be removed after 7 days."
-      ).catch(() => {});
+      //  DM
+      await member
+        .send(
+          "⚠️ You’ve been inactive for 3 days. Stay active or you may be removed after 7 days.",
+        )
+        .catch(() => {});
 
       user.warned = true;
 

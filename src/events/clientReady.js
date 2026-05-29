@@ -51,6 +51,8 @@ export default {
       }
     }
 
+    await checkInactive(guild)
+
     // CHECK EVERY 6 HOURS
     setInterval(async () => {
 
