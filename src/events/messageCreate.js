@@ -39,9 +39,9 @@ export default {
     const lastXp = new Date(user.lastXp || 0).getTime();
 
     // GIVE XP EVERY 10 SEC
-    if (now - lastXp >= 10000) {
+    if (now - lastXp >= 60000) {
 
-      const gainedXp = Math.floor(Math.random() * 10) + 5;
+      const gainedXp = Math.floor(Math.random() * 4) + 2;
 
       user.xp += gainedXp;
 
